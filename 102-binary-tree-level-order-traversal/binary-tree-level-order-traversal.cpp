@@ -11,48 +11,30 @@
  */
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) 
-    {
-        // validate the input
-        if(root == nullptr)
-        {
-            return {};
-        }    
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        TreeNode* cur = root;
+        vector<vector<int>>ans;
+        if(cur == NULL) return ans; // Base Case
 
-        // declarations
-        queue<TreeNode*> levels;
-        vector<vector<int>> ans;
+        deque<TreeNode*>queue;
+        queue.push_back(cur);
 
-        // initialize;
-        levels.push(root);
+        while(!queue.empty()){
+            int len = queue.size();
+            vector<int>cur_level;
 
-        // level order traversal
-        while(!levels.empty())
-        {
-            int level_size = levels.size();
-            vector<int> level;
-            while(level_size--)
-            {
-                auto node = levels.front();
-                levels.pop();
-                level.push_back(node->val);
+            for(int i =0; i<len; i++){
+                TreeNode* node = queue.front();
+                queue.pop_front();
+                cur_level.push_back(node->val);
 
-                if(node->left)
-                {
-                    levels.push(node->left);
-                }
+                if(node->left!= NULL) queue.push_back(node->left);
 
-                if(node->right)
-                {
-                    levels.push(node->right);
-                }
+                if(node->right != NULL) queue.push_back(node->right);
             }
-
-            ans.push_back(level);
+            ans.push_back(cur_level);
         }
-
-        // return the answer
         return ans;
-
+      
     }
 };
